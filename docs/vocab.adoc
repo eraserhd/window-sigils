@@ -1,1 +1,7 @@
+Linked-Data Vocabulary
+======================
+
+Window
+------
+
 
