@@ -4,10 +4,10 @@
 static NSDictionary* make_context()
 {
     static const NSString *keys[] = {
-        @"@version"
+        @"@version",
     };
     static const NSString *objects[] = {
-        @"1.1"
+        @"1.1",
     };
     return [[NSDictionary alloc] initWithObjects:objects forKeys:keys count:(NSUInteger)(sizeof(keys)/sizeof(keys[0]))];
 }
@@ -40,3 +40,14 @@ int main(int argc, char *argv[])
     [output release];
     exit(0);
 }
+
+// Useful @id for all windows
+// @type for all windows
+// Correct vocab for rectangles/geometry
+
+// Add screens
+
+// What's the root object?
+
+// Why are we not getting name?
+// nixpkgs derviation builds
