@@ -1,17 +1,13 @@
 
-CC		= xcrun clang
-CFLAGS		= -framework Cocoa
+prefix		= /usr/local
+
 SOURCES		= $(wildcard *.c)
 PROGRAMS	= $(basename $(SOURCES))
-PREFIX		= /usr/local
 
 all: $(PROGRAMS)
 
 install: all
-	mkdir -p $(PREFIX)/bin
+	mkdir -p $(prefix)/bin
 	for p in $(PROGRAMS); do \
-	  cp $$p $(PREFIX)/bin/$$p; \
+	  cp $$p $(prefix)/bin/$$p; \
 	done
-
-%: %.c
-	$(CC) $(CFLAGS) -o $* $< 
