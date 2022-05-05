@@ -52,7 +52,6 @@ int main(int argc, char *argv[])
     printf("\n\
     ]\n\
 }\n");
-
     exit(0);
 }
 
