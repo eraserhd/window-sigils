@@ -2,63 +2,33 @@
 #include <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
 
-const char *PREFIX = "https://github.com/eraserhd/window-sigils/blob/main/docs/vocab.adoc#";
+static long long number_value(CFNumberRef ref)
+{
+    long long value = 0;
+    CFNumberGetValue(ref, kCFNumberLongLongType, &value);
+    return value;
+}
 
 int main(int argc, char *argv[])
 {
-    printf("\
-{\n\
-    \"@context\": {\n\
-        \"@version\": \"1.1\"\n\
-    },\n\
-    \"windows\": [\n\
-        ");
-
     CFArrayRef windowListArray = CGWindowListCreate(kCGWindowListOptionOnScreenOnly|kCGWindowListExcludeDesktopElements, kCGNullWindowID);
-    NSArray *windows = CFBridgingRelease(CGWindowListCreateDescriptionFromArray(windowListArray));
+    CFArrayRef windows = (CFArrayRef)CFBridgingRelease(CGWindowListCreateDescriptionFromArray(windowListArray));
     CFRelease(windowListArray);
-
-    BOOL isFirst = YES;
-    for (NSDictionary *window in windows)
+    for (CFIndex i = 0; i < CFArrayGetCount(windows); i++)
     {
-        NSDictionary *bounds = [window objectForKey:@"kCGWindowBounds"];
-        printf("%s\n\
-        {\n\
-            \"@type\": \"%sWindow\",\n\
-            \"number\": \"%s\",\n\
-            \"ownerName\": \"%s\",\n\
-            \"ownerPID\": \"%s\",\n\
-            \"bounds\": {\n\
-                \"x\": %lld,\n\
-                \"y\": %lld,\n\
-                \"width\": %lld,\n\
-                \"height\": %lld\n\
-            }\n\
-        }",
-            isFirst ? "" : ",",
-            PREFIX,
-            [[[window objectForKey:@"kCGWindowNumber"] stringValue] cStringUsingEncoding:NSUTF8StringEncoding],
-            [[window objectForKey:@"kCGWindowOwnerName"] cStringUsingEncoding:NSUTF8StringEncoding],
-            [[[window objectForKey:@"kCGWindowOwnerPID"] stringValue] cStringUsingEncoding:NSUTF8StringEncoding],
-            [[bounds objectForKey:@"X"] longLongValue],
-            [[bounds objectForKey:@"Y"] longLongValue],
-            [[bounds objectForKey:@"Width"] longLongValue],
-            [[bounds objectForKey:@"Height"] longLongValue]
-        );
-        isFirst = NO;
+        CFDictionaryRef window = CFArrayGetValueAtIndex(windows, i);
+        CFDictionaryRef bounds = CFDictionaryGetValue(window, kCGWindowBounds);
+        printf("%5lld %6lld %6lld %6lld %6lld %5lld\n",
+               number_value(CFDictionaryGetValue(window, kCGWindowNumber)),
+               number_value(CFDictionaryGetValue(bounds, @"X")),
+               number_value(CFDictionaryGetValue(bounds, @"Y")),
+               number_value(CFDictionaryGetValue(bounds, @"Width")),
+               number_value(CFDictionaryGetValue(bounds, @"Height")),
+               number_value(CFDictionaryGetValue(window, kCGWindowOwnerPID)));
     }
-    [windows release];
-
-    printf("\n\
-    ]\n\
-}\n");
+    CFRelease(windows);
     exit(0);
 }
 
-// Useful @id for all windows
-
-// Add screens
-
 // Why are we not getting name?
 // nixpkgs derviation builds
-// Make plain C?
