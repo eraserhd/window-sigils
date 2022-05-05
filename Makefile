@@ -2,10 +2,10 @@
 
 CC		= xcrun clang
 CFLAGS		= -framework Cocoa
-SOURCES		= $(wildcard *.m)
+SOURCES		= $(wildcard *.c)
 PROGRAMS	= $(basename $(SOURCES))
 
 all: $(PROGRAMS)
 
-%: %.m
+%: %.c
 	$(CC) $(CFLAGS) -o $* $< 

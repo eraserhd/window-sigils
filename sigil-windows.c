@@ -1,6 +1,7 @@
 #include <stdio.h>
-#include <Cocoa/Cocoa.h>
-#include <Carbon/Carbon.h>
+#include <CoreFoundation/CoreFoundation.h>
+#include <CoreGraphics/CoreGraphics.h>
+
 
 static long long number_value(CFNumberRef ref)
 {
@@ -12,7 +13,7 @@ static long long number_value(CFNumberRef ref)
 int main(int argc, char *argv[])
 {
     CFArrayRef windowListArray = CGWindowListCreate(kCGWindowListOptionOnScreenOnly|kCGWindowListExcludeDesktopElements, kCGNullWindowID);
-    CFArrayRef windows = (CFArrayRef)CFBridgingRelease(CGWindowListCreateDescriptionFromArray(windowListArray));
+    CFArrayRef windows = CGWindowListCreateDescriptionFromArray(windowListArray);
     CFRelease(windowListArray);
     for (CFIndex i = 0; i < CFArrayGetCount(windows); i++)
     {
@@ -20,10 +21,10 @@ int main(int argc, char *argv[])
         CFDictionaryRef bounds = CFDictionaryGetValue(window, kCGWindowBounds);
         printf("%5lld %6lld %6lld %6lld %6lld %5lld\n",
                number_value(CFDictionaryGetValue(window, kCGWindowNumber)),
-               number_value(CFDictionaryGetValue(bounds, @"X")),
-               number_value(CFDictionaryGetValue(bounds, @"Y")),
-               number_value(CFDictionaryGetValue(bounds, @"Width")),
-               number_value(CFDictionaryGetValue(bounds, @"Height")),
+               number_value(CFDictionaryGetValue(bounds, CFSTR("X"))),
+               number_value(CFDictionaryGetValue(bounds, CFSTR("Y"))),
+               number_value(CFDictionaryGetValue(bounds, CFSTR("Width"))),
+               number_value(CFDictionaryGetValue(bounds, CFSTR("Height"))),
                number_value(CFDictionaryGetValue(window, kCGWindowOwnerPID)));
     }
     CFRelease(windows);
