@@ -11,8 +11,10 @@ stdenv.mkDerivation rec {
     sha256 = "";
   };
 
+  makeFlags = [ "PREFIX=$(out)" ];
+
   meta = with lib; {
-    description = "TODO: fill me in";
+    description = "Command-line utilities for managing Mac OS windows";
     homepage = "https://github.com/eraserhd/window-sigils";
     license = licenses.publicDomain;
     platforms = platforms.all;
