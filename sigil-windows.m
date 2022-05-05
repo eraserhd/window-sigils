@@ -21,10 +21,30 @@ int main(int argc, char *argv[])
     BOOL isFirst = YES;
     for (NSDictionary *window in windows)
     {
+        NSDictionary *bounds = [window objectForKey:@"kCGWindowBounds"];
         printf("%s\n\
         {\n\
-            \"@type\": \"%sWindow\"\n\
-        }", isFirst ? "" : ",", PREFIX);
+            \"@type\": \"%sWindow\",\n\
+            \"number\": \"%s\",\n\
+            \"ownerName\": \"%s\",\n\
+            \"ownerPID\": \"%s\",\n\
+            \"bounds\": {\n\
+                \"x\": %lld,\n\
+                \"y\": %lld,\n\
+                \"width\": %lld,\n\
+                \"height\": %lld\n\
+            }\n\
+        }",
+            isFirst ? "" : ",",
+            PREFIX,
+            [[[window objectForKey:@"kCGWindowNumber"] stringValue] cStringUsingEncoding:NSUTF8StringEncoding],
+            [[window objectForKey:@"kCGWindowOwnerName"] cStringUsingEncoding:NSUTF8StringEncoding],
+            [[[window objectForKey:@"kCGWindowOwnerPID"] stringValue] cStringUsingEncoding:NSUTF8StringEncoding],
+            [[bounds objectForKey:@"X"] longLongValue],
+            [[bounds objectForKey:@"Y"] longLongValue],
+            [[bounds objectForKey:@"Width"] longLongValue],
+            [[bounds objectForKey:@"Height"] longLongValue]
+        );
         isFirst = NO;
     }
     [windows release];
@@ -37,11 +57,9 @@ int main(int argc, char *argv[])
 }
 
 // Useful @id for all windows
-// Correct vocab for rectangles/geometry
 
 // Add screens
 
-// What's the root object?
-
 // Why are we not getting name?
 // nixpkgs derviation builds
+// Make plain C?
