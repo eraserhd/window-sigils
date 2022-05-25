@@ -21,7 +21,7 @@
       };
       darwinModules.default = { pkgs, ... }: {
         config = {
-          nixpkgs.overlays = self.overlays.default;
+          nixpkgs.overlays = [ self.overlays.default ];
 
           environment.systemPackages = [ pkgs.window-sigils ];
         };
