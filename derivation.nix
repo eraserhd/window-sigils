@@ -1,4 +1,4 @@
-{ stdenv, lib, fetchFromGitHub, darwin }:
+{ stdenv, lib, darwin }:
 
 let
   inherit (darwin.apple_sdk.frameworks) CoreFoundation CoreGraphics;
@@ -6,12 +6,7 @@ in stdenv.mkDerivation rec {
   pname = "window-sigils";
   version = "0.1.0";
 
-  src = fetchFromGitHub {
-    owner = "eraserhd";
-    repo = pname;
-    rev = "v${version}";
-    sha256 = "";
-  };
+  src = ./.;
 
   buildInputs = [
     CoreFoundation
