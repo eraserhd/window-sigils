@@ -19,5 +19,10 @@
       overlays.default = final: prev: {
         window-sigils = prev.callPackage ./derivation.nix {};
       };
+      darwinModules.default = {
+        config = {
+          environment.systemPackages = [ window-sigils ];
+        };
+      };
     };
 }
