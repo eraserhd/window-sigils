@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
     SEL runningApplications = sel_registerName("runningApplications");
     SEL sharedWorkspace = sel_registerName("sharedWorkspace");
 
+    printf("PID\tActive?\tHidden?\tBundle ID\tName\n");
+
     id ws = objc_msgSend((id)NSWorkspace, sharedWorkspace);
     CFArrayRef apps = (CFArrayRef)objc_msgSend(ws, runningApplications);
     for (CFIndex i = 0; i < CFArrayGetCount(apps); i++)
