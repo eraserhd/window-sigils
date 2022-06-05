@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
         CFDictionaryRef window = CFArrayGetValueAtIndex(windows, i);
         CFDictionaryRef bounds = CFDictionaryGetValue(window, kCGWindowBounds);
 
-	// CFTypeRef value;
-	// NSAccessibilityTitleAttribute ()
+        // CFTypeRef value;
+        // NSAccessibilityTitleAttribute ()
         // AXUIElementCopyAttributeValue(elementRef?, (__bridge CFStringRef)property, &value)
         // CFBridgingRelease(value);
         printf("%5lld %6lld %6lld %6lld %6lld %5lld\n",
