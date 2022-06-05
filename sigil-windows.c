@@ -2,7 +2,6 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreGraphics/CoreGraphics.h>
 
-
 static long long number_value(CFNumberRef ref)
 {
     long long value = 0;
@@ -12,6 +11,8 @@ static long long number_value(CFNumberRef ref)
 
 int main(int argc, char *argv[])
 {
+    printf("PID\tWindow\tX\tY\tWidth\tHeight\n");
+
     CFArrayRef windowListArray = CGWindowListCreate(kCGWindowListOptionOnScreenOnly|kCGWindowListExcludeDesktopElements, kCGNullWindowID);
     CFArrayRef windows = CGWindowListCreateDescriptionFromArray(windowListArray);
     CFRelease(windowListArray);
@@ -24,13 +25,13 @@ int main(int argc, char *argv[])
         // NSAccessibilityTitleAttribute ()
         // AXUIElementCopyAttributeValue(elementRef?, (__bridge CFStringRef)property, &value)
         // CFBridgingRelease(value);
-        printf("%5lld %6lld %6lld %6lld %6lld %5lld\n",
+        printf("%lld\t%lld\t%lld\t%lld\t%lld\t%lld\n",
+               number_value(CFDictionaryGetValue(window, kCGWindowOwnerPID)),
                number_value(CFDictionaryGetValue(window, kCGWindowNumber)),
                number_value(CFDictionaryGetValue(bounds, CFSTR("X"))),
                number_value(CFDictionaryGetValue(bounds, CFSTR("Y"))),
                number_value(CFDictionaryGetValue(bounds, CFSTR("Width"))),
-               number_value(CFDictionaryGetValue(bounds, CFSTR("Height"))),
-               number_value(CFDictionaryGetValue(window, kCGWindowOwnerPID)));
+               number_value(CFDictionaryGetValue(bounds, CFSTR("Height"))));
     }
     CFRelease(windows);
     exit(0);
