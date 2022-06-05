@@ -19,6 +19,11 @@ int main(int argc, char *argv[])
     {
         CFDictionaryRef window = CFArrayGetValueAtIndex(windows, i);
         CFDictionaryRef bounds = CFDictionaryGetValue(window, kCGWindowBounds);
+
+	// CFTypeRef value;
+	// NSAccessibilityTitleAttribute ()
+        // AXUIElementCopyAttributeValue(elementRef?, (__bridge CFStringRef)property, &value)
+        // CFBridgingRelease(value);
         printf("%5lld %6lld %6lld %6lld %6lld %5lld\n",
                number_value(CFDictionaryGetValue(window, kCGWindowNumber)),
                number_value(CFDictionaryGetValue(bounds, CFSTR("X"))),
@@ -30,6 +35,3 @@ int main(int argc, char *argv[])
     CFRelease(windows);
     exit(0);
 }
-
-// Why are we not getting name?
-// nixpkgs derviation builds
