@@ -1,7 +1,8 @@
 { stdenv, lib, darwin }:
 
 let
-  inherit (darwin.apple_sdk.frameworks) CoreFoundation CoreGraphics;
+  inherit (darwin) libobjc;
+  inherit (darwin.apple_sdk.frameworks) AppKit CoreFoundation CoreGraphics;
 in stdenv.mkDerivation rec {
   pname = "window-sigils";
   version = "0.1.0";
@@ -9,11 +10,12 @@ in stdenv.mkDerivation rec {
   src = ./.;
 
   buildInputs = [
+    libobjc
     CoreFoundation
     CoreGraphics
   ];
 
-  NIX_LDFLAGS = ''-F${CoreGraphics}/Library/Frameworks -framework CoreGraphics'';
+  NIX_LDFLAGS = "-F${AppKit}/Library/Frameworks -F${CoreGraphics}/Library/Frameworks";
   makeFlags = [ "prefix=$(out)" ];
 
   meta = with lib; {

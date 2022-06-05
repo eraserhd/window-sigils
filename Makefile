@@ -3,6 +3,8 @@ prefix		= /usr/local
 
 SOURCES		= $(wildcard *.c)
 PROGRAMS	= $(basename $(SOURCES))
+CFLAGS		+= -Werror
+LDFLAGS		+= -framework CoreGraphics -framework AppKit -lobjc
 
 all: $(PROGRAMS)
 
